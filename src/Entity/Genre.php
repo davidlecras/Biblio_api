@@ -4,15 +4,30 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\GenreRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=GenreRepository::class)
  * @UniqueEntity("libelle")
+ * @ApiResource(
+ *      attributes={
+ *          "order"={
+ *              "libelle"="ASC"
+ *          }
+ *      }
+ * )
+ * @ApiFilter(
+ *  SearchFilter::class,
+ *  properties = {"libelle":"ipartial"}
+ * )
  */
 class Genre
 {
@@ -39,6 +54,7 @@ class Genre
     /**
      * @ORM\OneToMany(targetEntity=Livre::class, mappedBy="genre")
      * @Groups({"listeGenresFull"})
+     * @ApiSubresource
      */
     private $livres;
 
