@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\NationalityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\NationalityRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=NationalityRepository::class)
@@ -21,6 +22,7 @@ class Nationality
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"listeAuteursFull"})
      */
     private $libelle;
 
@@ -63,7 +65,7 @@ class Nationality
     {
         if (!$this->auteurs->contains($auteur)) {
             $this->auteurs[] = $auteur;
-            $auteur->setNationalite($this);
+            $auteur->setNationality($this);
         }
 
         return $this;
@@ -73,8 +75,8 @@ class Nationality
     {
         if ($this->auteurs->removeElement($auteur)) {
             // set the owning side to null (unless already changed)
-            if ($auteur->getNationalite() === $this) {
-                $auteur->setNationalite(null);
+            if ($auteur->getNationality() === $this) {
+                $auteur->setNationality(null);
             }
         }
 

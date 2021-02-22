@@ -15,6 +15,7 @@ class Livre
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"listeAuteursFull"})
      */
     private $id;
 
@@ -25,7 +26,7 @@ class Livre
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"listeGenresFull"})
+     * @Groups({"listeGenresFull","listeAuteursFull"})
      */
     private $title;
 
@@ -38,13 +39,14 @@ class Livre
     /**
      * @ORM\ManyToOne(targetEntity=Genre::class, inversedBy="livres")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"listeAuteursFull"})
      */
     private $genre;
 
     /**
      * @ORM\ManyToOne(targetEntity=Editeur::class, inversedBy="livres")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"listeGenresFull"})
+     * @Groups({"listeGenresFull","listeAuteursFull"})
      */
     private $editeur;
 
@@ -57,11 +59,13 @@ class Livre
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"listeAuteursFull"})
      */
     private $annee;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"listeAuteursFull"})
      */
     private $langue;
 
